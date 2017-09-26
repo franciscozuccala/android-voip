@@ -11,10 +11,16 @@ read ndk_root
 echo -n "Openssl path (version openssl-1.1.0c, if it is empty it will be downloaded): "
 read openssl_path
 
+check_swig = "command -v swig"
+
+if ! eval $check_swig; then
+  echo "Installing swig, is required"
+  sudo apt-get install swig
+fi
+
 export ARCH=$arch
 export ANDROID_API=$android_api
 export NDK_ROOT=$ndk_root
-
 
 case $ARCH in
   arm)
