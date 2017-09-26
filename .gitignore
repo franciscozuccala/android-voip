@@ -66,5 +66,5 @@ signing.properties trestle.keystore
 
 #Pjsip folders
 pjsip-project
-openssl-*
+openssl-*.tar.gz
 toolchains*
