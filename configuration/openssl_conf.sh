@@ -2,7 +2,7 @@
 
 echo "Started openssl configuration script"
 
-echo -n "Insert android architecture (arm, aarch64, x86, x86_64, mips, mips64): "
+echo -n "Insert android architecture (armv7a, arm, aarch64, x86, x86_64, mips, mips64): "
 read arch
 echo -n "Insert android api (Eg: android-19): "
 read android_api
@@ -23,6 +23,13 @@ export ANDROID_API=$android_api
 export NDK_ROOT=$ndk_root
 
 case $ARCH in
+  armv7a)
+    export TOOLCHAIN="arm-linux-androideabi-4.9"
+    export OPENSSL_CONFIG_OPTIONS="android-armv7"
+    export TOOL_PREFIX="arm-linux-androideabi-"
+    export INSTALL_FOLDER="arch-arm"
+    export CFLAGS="-funroll-loops -ffast-math -O3 -fPIC -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb"
+    ;;
   arm)
     export TOOLCHAIN="arm-linux-androideabi-4.9"
     export OPENSSL_CONFIG_OPTIONS="android-armeabi"
@@ -40,6 +47,8 @@ case $ARCH in
     export OPENSSL_CONFIG_OPTIONS="android-x86"
     export TOOL_PREFIX="i686-linux-android-"
     export INSTALL_FOLDER="arch-x86"
+    export CFLAGS="-funroll-loops -ffast-math -O3 -fPIC -march=atom -msse3 -mfpmath=sse"
+
     ;;
   x86_64)
     export TOOLCHAIN="x86_64-4.9"
