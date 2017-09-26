@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Started openssl configuration script"
+# https://developer.android.com/ndk/guides/standalone_toolchain.html
 
 echo -n "Insert android architecture (arm, aarch64, x86, x86_64, mips, mips64): "
 read arch
@@ -83,20 +83,15 @@ fi
 
 
 cd $OPEN_SSL_PATH
-if ./Configure $OPENSSL_CONFIG_OPTIONS; then
-  if make clean && make; then
-    cp lib{ssl,crypto}.{so,a,so.1.1} "$NDK_ROOT/platforms/$ANDROID_API/$INSTALL_FOLDER/usr/lib"
-    cp -R include/openssl "$NDK_ROOT/platforms/$ANDROID_API/$INSTALL_FOLDER/usr/include"
+./Configure $OPENSSL_CONFIG_OPTIONS
 
-    mkdir lib
-    cp lib*.a lib/
+make clean
+make
 
-    cd ..
+cp lib{ssl,crypto}.{so,a,so.1.1} "$NDK_ROOT/platforms/$ANDROID_API/$INSTALL_FOLDER/usr/lib"
+cp -R include/openssl "$NDK_ROOT/platforms/$ANDROID_API/$INSTALL_FOLDER/usr/include"
 
-    echo "Configuration script finished correctly"
-  else
-    echo "An error ocurred when configurating openssl"
-  fi
-else
-  echo "An error ocurred when configurating openssl"
-fi
+mkdir lib
+cp lib*.a lib/
+
+cd ..
