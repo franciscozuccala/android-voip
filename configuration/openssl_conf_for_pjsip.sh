@@ -44,6 +44,7 @@ case $ARCH in
     export CXXFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 -frtti -fexceptions "
     export CFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 "
     export LDFLAGS=" ${ARCH_LINK} "
+    export INSTALL_FOLDER="arch-arm"
     ./Configure android-armv7 shared --force
   ;;
   x86)
@@ -64,8 +65,12 @@ case $ARCH in
     export CXXFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 -frtti -fexceptions "
     export CFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 "
     export LDFLAGS=" ${ARCH_LINK} "
+    export INSTALL_FOLDER="arch-x86"
     ./Configure android-x86 shared --force
   ;;
 esac
 make
+cp lib{ssl,crypto}.{so,a,so.1.*} "$NDK_ROOT/platforms/$ANDROID_API/$INSTALL_FOLDER/usr/lib"
+cp -R include/openssl "$NDK_ROOT/platforms/$ANDROID_API/$INSTALL_FOLDER/usr/include"
+
 mkdir -p lib && cp lib*.a lib/

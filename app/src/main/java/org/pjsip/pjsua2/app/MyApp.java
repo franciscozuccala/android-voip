@@ -285,6 +285,8 @@ class MyApp {
     static {
 	try{
 	    System.loadLibrary("openh264");
+		System.loadLibrary("crypto.so.1.0.0");
+		System.loadLibrary("ssl.so.1.0.0");
             // Ticket #1937: libyuv is now included as static lib
             //System.loadLibrary("yuv");
 	} catch (UnsatisfiedLinkError e) {

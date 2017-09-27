@@ -10,20 +10,26 @@ echo -n "Insert android api (Eg: android-19): "
 read android_api
 echo -n "With openssl? (y/n): "
 read has_openssl
+
+ANDROID_NDK=$android_ndk
+
+COMMAND="TARGET_ABI=$target_abi APP_PLATFORM=$android_api ./configure-android --use-ndk-cflags"
+
 if [ $has_openssl = "y" ]; then
   echo -n "Openssl path (version openssl-1.1.0c): ";
   read openssl_path
+  COMMAND="$COMMAND --with-ssl=$openssl_path"
 fi
 
-svn checkout http://svn.pjsip.org/repos/pjproject/trunk/
+if [ ! -d "/trunk" ]; then
+  svn checkout http://svn.pjsip.org/repos/pjproject/trunk/
+fi
+
 cd trunk/
-export ANDROID_NDK_ROOT=$android_ndk
 
-comm="TARGET_ABI=$target_abi APP_PLATFORM=$android_api ./configure-android --use-ndk-cflags"
-if ["$has_openssl" = "y"]; then
-  $comm="$comm --with-ssl=$openssl_path"
-fi
-if eval $comm; then
+export ANDROID_NDK_ROOT=$ANDROID_NDK
+echo "COMMAND INFO: $COMMAND"
+if eval $COMMAND; then
   cd pjlib/include/pj
 
   touch config_site.h
@@ -42,7 +48,7 @@ if eval $comm; then
     cd ../../../..
     echo "Configuration script finished correctly"
   else
-    echo "An error ocurred when configurating pjsip"
+    echo "An error ocurred when making pjsip"
   fi
 else
   echo "An error ocurred when configurating pjsip"
