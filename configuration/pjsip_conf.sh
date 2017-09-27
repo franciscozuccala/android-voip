@@ -16,23 +16,26 @@ if [ $has_openssl = "y" ]; then
 fi
 
 svn checkout http://svn.pjsip.org/repos/pjproject/trunk/
-mv trunk/ pjsip-project/
-cd pjsip-project/pjlib/include/pj
-touch config_site.h
-echo "/*Activate Android specific settings in the 'config_site_sample.h'*/
-
-#define PJ_CONFIG_ANDROID 1
-#define PJ_HAS_SSL_SOCK 1
-#include <pj/config_site_sample.h>" >> config_site.h
-
-cd ../../..
-
+cd trunk/
 export ANDROID_NDK_ROOT=$android_ndk
+
 comm="TARGET_ABI=$target_abi APP_PLATFORM=$android_api ./configure-android --use-ndk-cflags"
 if ["$has_openssl" = "y"]; then
   $comm="$comm --with-ssl=$openssl_path"
 fi
 if eval $comm; then
+  cd pjlib/include/pj
+
+  touch config_site.h
+  > config_site.h
+  echo "/*Activate Android specific settings in the 'config_site_sample.h'*/
+
+  #define PJ_CONFIG_ANDROID 1
+  #define PJ_HAS_SSL_SOCK 1
+  #include <pj/config_site_sample.h>" >> config_site.h
+
+  cd ../../..
+
   if make dep && make clean && make; then
     cd pjsip-apps/src/swig && make
 

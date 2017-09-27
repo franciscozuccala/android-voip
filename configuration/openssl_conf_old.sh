@@ -12,7 +12,7 @@ read ndk_root
 echo -n "Openssl path (version openssl-1.1.0c, if it is empty it will be downloaded): "
 read openssl_path
 
-check_swig = "command -v swig"
+check_swig="command -v swig"
 
 if ! eval $check_swig; then
   echo "Installing swig, is required"
@@ -100,17 +100,17 @@ cd $openssl_path
 
 echo "Configurating..."
 ./Configure \
-        #--prefix=$PREFIX \
+        --prefix=$PREFIX \
         --openssldir=$openssl_path \
         --cross-compile-prefix=$CROSS_PREFIX \
+        --force \
         zlib-dynamic \
         shared \
         $TARGET \
     $CFLAGS
 
 echo "Compiling..."
-make depend
-make -j8
-make install
+make && make install
+mkdir -p lib && cp lib*.a lib/
 
 echo "Done"
