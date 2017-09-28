@@ -2,11 +2,11 @@
 
 echo "Started pjsip configuration script"
 
-echo -n "Insert Ndk path (Use ndk 13b): "
+echo -n "Insert Ndk path: "
 read android_ndk
 echo -n "Insert target abi (Eg: armeabi-v7a, x86): "
 read target_abi
-echo -n "Insert android api (Eg: android-19): "
+echo -n "Insert android api (Eg: android-16): "
 read android_api
 echo -n "With openssl? (y/n): "
 read has_openssl

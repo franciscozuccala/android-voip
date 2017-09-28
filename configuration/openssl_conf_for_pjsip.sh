@@ -21,6 +21,12 @@ ARCH=$arch
 ANDROID_API=$android_api
 NDK_ROOT=$ndk_root
 
+if [ -z "$openssl_path"]; then
+    wget "https://www.openssl.org/source/openssl-1.0.2k.tar.gz";
+    tar xzvf openssl-1.0.2k.tar.gz;
+    openssl_path="openssl-1.0.2k"
+fi
+
 cd $openssl_path
 
 export NDK=$ndk_root
