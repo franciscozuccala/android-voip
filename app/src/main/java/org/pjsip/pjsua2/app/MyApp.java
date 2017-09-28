@@ -284,17 +284,12 @@ class MyAccountConfig
 class MyApp {
     static {
 	try{
-	    System.loadLibrary("openh264");
-		System.loadLibrary("crypto.so.1.0.0");
-		System.loadLibrary("ssl.so.1.0.0");
-            // Ticket #1937: libyuv is now included as static lib
-            //System.loadLibrary("yuv");
+		System.loadLibrary("crypto_1_0_0");
+		System.loadLibrary("ssl_1_0_0");
+		System.loadLibrary("pjsua2");
 	} catch (UnsatisfiedLinkError e) {
 	    System.out.println("UnsatisfiedLinkError: " + e.getMessage());
-	    System.out.println("This could be safely ignored if you " +
-			       "don't need video.");
 	}
-	System.loadLibrary("pjsua2");
 	System.out.println("Library loaded");
     }
 

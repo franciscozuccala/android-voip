@@ -14,16 +14,16 @@ android {
         }
     }
 
-    externalNativeBuild{
-        ndkBuild{
-            path 'src/jni/Android.mk'
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ["src/main/jniLibs"]
         }
     }
 }
