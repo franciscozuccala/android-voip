@@ -28,7 +28,7 @@
  */
 
 /* Canonical OS name */
-#define PJ_OS_NAME "arm-unknown-linux-androideabi"
+#define PJ_OS_NAME "x86-unknown-linux-android"
 
 /* Legacy macros */
 /* #undef PJ_WIN32 */
